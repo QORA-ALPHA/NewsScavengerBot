@@ -1,0 +1,42 @@
+services:
+  - type: worker
+    name: finintelbot
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.main
+    autoDeploy: true
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_TARGETS
+        sync: false
+      - key: PROVIDER
+        value: rss
+      - key: RSS_URLS
+        value: "https://feeds.reuters.com/reuters/businessNews,https://news.ycombinator.com/rss"
+      - key: REFRESH_MINUTES
+        value: "10"
+      - key: TZ
+        value: "America/New_York"
+      - key: DB_PATH
+        value: "/data/state.db"
+      - key: MARKET_PROVIDER
+        value: yfinance
+      - key: US30_SYMBOL
+        value: "YM=F"
+      - key: US30_INTERVAL
+        value: "5m"
+      - key: US30_LOOKBACK
+        value: "2d"
+      - key: US30_REFRESH_MINUTES
+        value: "5"
+      - key: US30_ENABLE
+        value: "true"
+      - key: US30_SESSION_START
+        value: "09:30"
+      - key: US30_SESSION_END
+        value: "16:00"
+    disk:
+      name: bot-data
+      mountPath: /data
+      sizeGB: 1
